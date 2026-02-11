@@ -13,7 +13,7 @@ body {
     padding: 0;
     font-family: 'Poppins', sans-serif;
     text-align: center;
-    color: white;
+    color: #fff;
     background: url('images/IMG_2676.jpeg') no-repeat center center/cover;
     background-size: cover;
     height: 100vh;
@@ -40,36 +40,42 @@ body.overlay-bg {
     z-index: 5;
 }
 
-/* Carta sólida con scroll y margen lateral más amplio */
+/* Carta estilo “papel” */
 #letter {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 10;
-    background: rgba(0, 0, 0, 0.85);
-    color: #fff;
-    padding: 40px 50px; /* más espacio lateral */
-    border-radius: 25px;
-    max-width: 700px;   /* carta más ancha */
-    max-height: 80vh;
+    background: #fff8f0;
+    color: #333;
+    padding: 50px 60px;
+    border-radius: 20px;
+    max-width: 95%;
+    max-height: 85vh;
     overflow-y: auto;
-    box-shadow: 0 15px 50px rgba(0,0,0,0.5);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+    border: 1px solid #f2e5d5;
     opacity: 0;
     pointer-events: none;
     transition: opacity 1s ease, transform 1s ease;
-    scroll-behavior: smooth; /* scroll suave */
+    scroll-behavior: smooth;
+    font-family: 'Playfair Display', serif;
+    line-height: 1.9;
 }
 
+/* Carta visible */
 #letter.show {
     opacity: 1;
     pointer-events: auto;
 }
 
-#text {
-    margin-top: 20px;
-    line-height: 1.9; /* más espaciado entre líneas */
-    white-space: pre-line;
+/* Cada línea o párrafo animado */
+.line {
+    opacity: 0;
+    display: block;
+    margin-bottom: 1.2em;
+    transition: opacity 0.6s ease;
 }
 
 /* Botones */
@@ -180,14 +186,31 @@ function openLetter() {
 
 function typeWriter() {
     const letterDiv = document.getElementById("letter");
+    const textDiv = document.getElementById("text");
+
     if (i < letterText.length) {
-        const currentChar = letterText.charAt(i);
-        const textDiv = document.getElementById("text");
-        textDiv.innerHTML += currentChar;
+        let currentChar = letterText.charAt(i);
+        let span;
+
+        // Crear un span por línea
+        if (currentChar === "\n") {
+            span = document.createElement("br");
+            textDiv.appendChild(span);
+        } else {
+            span = document.createElement("span");
+            span.className = "line";
+            span.textContent = currentChar;
+            textDiv.appendChild(span);
+            // animación fade
+            setTimeout(() => {
+                span.style.opacity = 1;
+            }, 50);
+        }
+
         if (currentChar.match(/[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]/)) playKeySound();
         i++;
 
-        // Baja el scroll automáticamente mientras se escribe
+        // Scroll automático mientras se escribe
         letterDiv.scrollTop = letterDiv.scrollHeight;
 
         let delay = 35;
