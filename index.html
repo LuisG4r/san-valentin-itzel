@@ -8,7 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
 
 <style>
-/* ===== Fondo personalizado ===== */
 body {
     margin: 0;
     padding: 0;
@@ -17,41 +16,32 @@ body {
     color: white;
     background: url('images/IMG_2676.jpeg') no-repeat center center/cover;
     height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     transition: filter 0.8s ease;
+    overflow: hidden;
 }
 
 body.blur {
     filter: blur(8px);
 }
 
-/* ===== Contenedores ===== */
-.container {
-    max-width: 650px;
-    width: 90%;
-    margin: auto;
-}
-
-/* ===== Texto inicial centrado verticalmente ===== */
+/* ===== Intro centrado ===== */
 #intro {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     height: 100vh;
-}
-
-h1 {
-    font-family: 'Playfair Display', serif;
-    font-weight: 400;
-    letter-spacing: 2px;
-    font-size: 3em;
+    z-index: 1;
 }
 
 /* ===== Carta translúcida ===== */
 #letter {
+    position: relative;
+    z-index: 2;
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(5px);
     color: white;
@@ -94,15 +84,11 @@ button:hover {
     transform: scale(1.05);
 }
 
-.hidden {
-    display: none;
-}
-
-/* ===== Overlay final ===== */
+/* ===== Overlay ===== */
 .fade-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.88);
+    background: rgba(0,0,0,0.88);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -111,6 +97,7 @@ button:hover {
     transition: opacity 1.2s ease;
     text-align: center;
     padding: 20px;
+    z-index: 3;
 }
 
 .fade-overlay.show {
@@ -127,19 +114,16 @@ button:hover {
 
 <body>
 
-<!-- ===== Pantalla inicial ===== -->
-<div class="container" id="intro">
+<div id="intro">
     <h1>Para Itzel...</h1>
     <button onclick="openLetter()">Ábrelo 💌</button>
 </div>
 
-<!-- ===== Carta con mensaje ===== -->
-<div class="container hidden" id="letter">
+<div id="letter">
     <div id="text"></div>
     <button id="yesBtn" class="hidden" onclick="sayYes()">Sí 💗</button>
 </div>
 
-<!-- ===== Overlay final ===== -->
 <div class="fade-overlay" id="overlay">
     <div class="fade-message">
         Sabía que dirías que sí… <br><br>
@@ -148,8 +132,6 @@ button:hover {
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-
 const letterText = `Sé que quizá nunca te han dado una sorpresa así,
 o han intentado hacer algo diferente por ti.
 
@@ -174,23 +156,18 @@ Itzel,
 
 let i = 0;
 
-// ===== Sonido tipo máquina de escribir =====
 function playKeySound() {
     const sound = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=typewriter-soft-112109.mp3");
     sound.volume = 0.12;
     sound.play();
 }
 
-// ===== Abrir carta =====
 function openLetter() {
-    document.getElementById("intro").classList.add("hidden");
+    document.getElementById("intro").style.display = "none";
     const letterDiv = document.getElementById("letter");
-    letterDiv.classList.remove("hidden");
-
-    // Blur al fondo
     document.body.classList.add("blur");
 
-    // Animación de aparición de la carta
+    // Mostrar carta con transición
     setTimeout(() => {
         letterDiv.classList.add("show");
     }, 100);
@@ -198,23 +175,18 @@ function openLetter() {
     typeWriter();
 }
 
-// ===== Efecto máquina de escribir =====
 function typeWriter() {
     if (i < letterText.length) {
         const currentChar = letterText.charAt(i);
         document.getElementById("text").innerHTML += currentChar;
-
-        if (currentChar.match(/[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]/)) {
-            playKeySound();
-        }
-
+        if (currentChar.match(/[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]/)) playKeySound();
         i++;
 
         let delay = 35;
         if (currentChar === ",") delay = 200;
         if (currentChar === ".") delay = 350;
         if (currentChar === "\n") delay = 400;
-        if (letterText.substring(i-7, i) === "Itzel,") delay = 600;
+        if (letterText.substring(i-7,i) === "Itzel,") delay = 600;
 
         setTimeout(typeWriter, delay);
     } else {
@@ -222,18 +194,14 @@ function typeWriter() {
     }
 }
 
-// ===== Mostrar overlay final y abrir Spotify =====
 function sayYes() {
     const overlay = document.getElementById("overlay");
     overlay.classList.add("show");
 
-    // Retraso 7 segundos para leer mensaje antes de abrir Spotify
     setTimeout(() => {
         window.open("https://open.spotify.com/track/2YaAk5IAyTMk40RMqCPP87", "_blank");
     }, 7000);
 }
-
-});
 </script>
 
 </body>
