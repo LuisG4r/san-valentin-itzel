@@ -13,83 +13,63 @@ body {
     padding: 0;
     font-family: 'Poppins', sans-serif;
     text-align: center;
-    color: #333;
-    background: url('images/IMG_2677.png') no-repeat center center/cover;
-    background-size: cover;
+    color: white;
+    background: url('images/IMG_2678.png') no-repeat center center/cover;
     height: 100vh;
     overflow: hidden;
 }
 
-/* Intro centrado */
+/* ===== Intro centrado ===== */
 #intro {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    z-index: 5;
+    height: 100vh;
+    z-index: 1;
 }
 
-#intro h1 {
-    color: #fff;
-    font-size: 3em;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
-}
-
-/* Carta tipo papel */
+/* ===== Carta de papel ===== */
 #letter {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10;
-    background: #fffef4; /* color de papel suave */
-    color: #333;
-    padding: 50px 20px; /* margen lateral mínimo */
-    border-radius: 15px;
-    width: 90%;
+    position: relative;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.9);
+    color: black;
+    padding: 40px 30px;
+    border-radius: 25px;
     max-width: 800px;
-    max-height: 85vh;
+    width: 90%;
+    max-height: 80vh;
+    margin: 20px auto;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
     overflow-y: auto;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-    border: 1px solid #f2e5d5;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 1s ease, transform 1s ease;
-    font-family: 'Playfair Display', serif;
-    font-size: 1.2em;
-    line-height: 2;
-    text-align: justify;
+    font-size: 1.1em;
+    line-height: 1.8em;
+    display: none;
 }
 
-/* Mostrar carta */
-#letter.show {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-/* Botones */
+/* ===== Botones ===== */
 button {
-    margin-top: 30px;
+    margin-top: 20px;
     padding: 12px 25px;
     border: none;
     font-size: 15px;
     cursor: pointer;
-    transition: 0.3s;
     border-radius: 20px;
     background: white;
     color: black;
+    transition: 0.3s;
 }
 
 button:hover {
     transform: scale(1.05);
 }
 
-/* Overlay final */
+/* ===== Overlay ===== */
 .fade-overlay {
     position: fixed;
     inset: 0;
@@ -102,7 +82,7 @@ button:hover {
     transition: opacity 1.2s ease;
     text-align: center;
     padding: 20px;
-    z-index: 20;
+    z-index: 3;
 }
 
 .fade-overlay.show {
@@ -113,10 +93,11 @@ button:hover {
     font-size: 20px;
     max-width: 500px;
     line-height: 1.6;
-    color: #fff;
+    color: white;
 }
 </style>
 </head>
+
 <body>
 
 <div id="intro">
@@ -137,31 +118,31 @@ button:hover {
 </div>
 
 <script>
-const letterText = `Sé que quizá nunca te han dado una sorpresa así, o han intentado hacer algo diferente por ti. Y aunque cuando te pedí que fueras mi novia casi lo arruino 😅, siempre he querido que lo nuestro tenga algo único, algo que se sienta especial… como tú. Desde que te conocí supe que contigo iba a vivir momentos increíbles: muchas risas, burlas, bromas, canciones cantadas a todo pulmón en el carro y algo que simplemente no se puede explicar… pero se siente. Lo nuestro fue natural. Sin forzarlo. Sin planearlo demasiado. Y por eso hoy quiero preguntártelo de una manera distinta... Itzel, ¿Te gustaría ser mi San Valentín? ❤️`;
+const letterText = `Sé que quizá nunca te han dado una sorpresa así, o han intentado hacer algo diferente por ti.
+
+Y aunque cuando te pedí que fueras mi novia casi lo arruino 😅, siempre he querido que lo nuestro tenga algo único, algo que se sienta especial… como tú.
+
+Desde que te conocí supe que contigo iba a vivir momentos increíbles: muchas risas, burlas, bromas, canciones cantadas a todo pulmón en el carro y algo que simplemente no se puede explicar… pero se siente.
+
+Lo nuestro fue natural. Sin forzarlo. Sin planearlo demasiado.
+
+Y por eso hoy quiero preguntártelo de una manera distinta...
+
+Itzel, ¿Te gustaría ser mi San Valentín? ❤️`;
 
 function openLetter() {
     document.getElementById("intro").style.display = "none";
-    const letterDiv = document.getElementById("letter");
+    const letter = document.getElementById("letter");
+    letter.style.display = "block";
+
     const textDiv = document.getElementById("text");
-
-    textDiv.innerHTML = ''; // limpiar antes
-
-    // Párrafo único fluido
-    const p = document.createElement('p');
-    p.textContent = letterText;
-    textDiv.appendChild(p);
-
-    letterDiv.classList.add("show");
-
-    // Scroll inicial al top
-    textDiv.scrollTop = 0;
+    textDiv.innerHTML = letterText; // Mostrar todo el texto de una
 }
 
 function sayYes() {
     const overlay = document.getElementById("overlay");
     overlay.classList.add("show");
 
-    // Retraso 7 segundos antes de abrir Spotify
     setTimeout(() => {
         window.open("https://open.spotify.com/track/2YaAk5IAyTMk40RMqCPP87", "_blank");
     }, 7000);
