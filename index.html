@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para mi equipillo ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    background: #0f0f0f;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    overflow: hidden;
+    transition: background 1s ease;
+}
+
+.container {
+    max-width: 600px;
+    padding: 20px;
+}
+
+h1 {
+    font-weight: 300;
+    letter-spacing: 3px;
+}
+
+button {
+    margin-top: 25px;
+    padding: 10px 22px;
+    background: transparent;
+    border: 1px solid white;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: white;
+    color: black;
+}
+
+.hidden {
+    display: none;
+}
+
+.heart {
+    position: absolute;
+    color: rgba(255,255,255,0.15);
+    font-size: 18px;
+    animation: float 6s linear infinite;
+}
+
+@keyframes float {
+    from { transform: translateY(100vh); }
+    to { transform: translateY(-10vh); }
+}
+</style>
+</head>
+<body>
+
+<audio id="bgMusic" loop>
+    <source src="motel.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container" id="intro">
+    <h1>Itzel...</h1>
+    <p>Hay algo que quiero preguntarte.</p>
+    <button onclick="openLetter()">Ábrelo 💌</button>
+</div>
+
+<div class="container hidden" id="letter">
+    <h1>¿Quieres ser mi San Valentín?</h1>
+    <p>
+        Sé que quizá nunca te han dado una sorpresa así,<br>
+        o han intentado hacer algo diferente por ti.<br><br>
+
+        Y aunque cuando te pedí que fueras mi novia casi lo arruino 😅<br>
+        siempre he querido que lo nuestro tenga algo único,<br>
+        algo que se sienta especial… como tú.<br><br>
+
+        Desde que te conocí supe que contigo iba a vivir momentos increíbles:<br>
+        muchas risas, burlas, bromas, canciones cantadas a todo pulmón en el carro<br>
+        y algo que simplemente no se puede explicar…<br>
+        pero se siente.<br><br>
+
+        Lo nuestro fue natural.<br>
+        Sin forzarlo.<br>
+        Sin planearlo demasiado.<br>
+        Y por eso es distinto.<br><br>
+
+        Por eso hoy quiero preguntártelo de una manera diferente.<br><br>
+
+        Itzel…<br>
+        ¿Te gustaría ser mi San Valentín? ❤️
+    </p>
+    <button onclick="sayYes()">Sí 💗</button>
+</div>
+
+<script>
+function openLetter() {
+    document.getElementById("intro").classList.add("hidden");
+    document.getElementById("letter").classList.remove("hidden");
+
+    let music = document.getElementById("bgMusic");
+    music.play().catch(() => {
+        console.log("El navegador requiere interacción para reproducir música.");
+    });
+}
+
+function sayYes() {
+    document.body.style.background = "#1a1a1a";
+    alert("Sabía que dirías que sí… Eres mi lugar favorito. ❤️ - Luis");
+}
+
+// corazones flotando
+setInterval(() => {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "♥";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+}, 600);
+</script>
+
+</body>
+</html>
