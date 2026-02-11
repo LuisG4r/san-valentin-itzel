@@ -41,9 +41,9 @@ body {
     z-index: 10;
     background: #fff8f0;
     color: #333;
-    padding: 50px 60px;
+    padding: 40px 60px;
     border-radius: 20px;
-    max-width: 95%;
+    max-width: 90%;
     max-height: 85vh;
     overflow-y: auto;
     box-shadow: 0 20px 50px rgba(0,0,0,0.6);
@@ -52,13 +52,17 @@ body {
     pointer-events: none;
     transition: opacity 1s ease, transform 1s ease;
     font-family: 'Playfair Display', serif;
-    line-height: 1.9;
+    line-height: 2; /* más espacio entre líneas */
     text-align: left;
 }
 
 #letter.show {
     opacity: 1;
     pointer-events: auto;
+}
+
+#letter p {
+    margin-bottom: 1.5em; /* espacio entre párrafos */
 }
 
 button {
@@ -75,10 +79,6 @@ button {
 
 button:hover {
     transform: scale(1.05);
-}
-
-.hidden {
-    display: none;
 }
 
 .fade-overlay {
@@ -116,7 +116,7 @@ button:hover {
 
 <div id="letter">
     <div id="text"></div>
-    <button id="yesBtn" class="hidden" onclick="sayYes()">Sí 💗</button>
+    <button id="yesBtn" onclick="sayYes()">Sí 💗</button>
 </div>
 
 <div class="fade-overlay" id="overlay">
@@ -127,32 +127,30 @@ button:hover {
 </div>
 
 <script>
-const letterText = `Sé que quizá nunca te han dado una sorpresa así,
-o han intentado hacer algo diferente por ti.
-
-Y aunque cuando te pedí que fueras mi novia casi lo arruino 😅
-siempre he querido que lo nuestro tenga algo único,
-algo que se sienta especial… como tú.
-
-Desde que te conocí supe que contigo iba a vivir momentos increíbles:
-muchas risas, burlas, bromas,
-canciones cantadas a todo pulmón en el carro
-y algo que simplemente no se puede explicar…
-pero se siente.
-
-Lo nuestro fue natural.
-Sin forzarlo.
-Sin planearlo demasiado.
-
-Y por eso hoy quiero preguntártelo de una manera distinta...
-
-Itzel,
-¿Te gustaría ser mi San Valentín? ❤️`;
+const letterText = [
+  "Sé que quizá nunca te han dado una sorpresa así, o han intentado hacer algo diferente por ti.",
+  "Y aunque cuando te pedí que fueras mi novia casi lo arruino 😅, siempre he querido que lo nuestro tenga algo único, algo que se sienta especial… como tú.",
+  "Desde que te conocí supe que contigo iba a vivir momentos increíbles: muchas risas, burlas, bromas, canciones cantadas a todo pulmón en el carro y algo que simplemente no se puede explicar… pero se siente.",
+  "Lo nuestro fue natural. Sin forzarlo. Sin planearlo demasiado.",
+  "Y por eso hoy quiero preguntártelo de una manera distinta...",
+  "Itzel, ¿Te gustaría ser mi San Valentín? ❤️"
+];
 
 function openLetter() {
     document.getElementById("intro").style.display = "none";
     const letterDiv = document.getElementById("letter");
-    document.getElementById("text").textContent = letterText; // texto completo de golpe
+    const textDiv = document.getElementById("text");
+
+    // Limpiar por si acaso
+    textDiv.innerHTML = '';
+
+    // Agregar párrafos completos
+    letterText.forEach(paragraph => {
+        const p = document.createElement('p');
+        p.textContent = paragraph;
+        textDiv.appendChild(p);
+    });
+
     letterDiv.classList.add("show");
 }
 
