@@ -18,6 +18,12 @@ body {
     background-size: cover;
     height: 100vh;
     overflow: hidden;
+    transition: background-color 0.5s ease;
+}
+
+/* Fondo oscuro al abrir carta */
+body.overlay-bg {
+    background-color: rgba(0,0,0,0.5);
 }
 
 /* Intro centrado */
@@ -34,7 +40,7 @@ body {
     z-index: 5;
 }
 
-/* Carta sólida con scroll y margen lateral */
+/* Carta sólida con scroll y margen lateral más amplio */
 #letter {
     position: fixed;
     top: 50%;
@@ -43,18 +49,16 @@ body {
     z-index: 10;
     background: rgba(0, 0, 0, 0.85);
     color: #fff;
-    padding: 30px 40px; /* margen lateral amplio */
+    padding: 40px 50px; /* más espacio lateral */
     border-radius: 25px;
-    max-width: 600px;
-    max-height: 80vh; /* altura máxima de la carta */
-    overflow-y: auto; /* scroll vertical si el texto excede */
-    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+    max-width: 700px;   /* carta más ancha */
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.5);
     opacity: 0;
     pointer-events: none;
     transition: opacity 1s ease, transform 1s ease;
-
-    /* Scroll suave */
-    scroll-behavior: smooth;
+    scroll-behavior: smooth; /* scroll suave */
 }
 
 #letter.show {
@@ -64,9 +68,8 @@ body {
 
 #text {
     margin-top: 20px;
-    line-height: 1.8;
+    line-height: 1.9; /* más espaciado entre líneas */
     white-space: pre-line;
-    text-shadow: none;
 }
 
 /* Botones */
@@ -161,28 +164,31 @@ Itzel,
 
 let i = 0;
 
-// Sonido máquina de escribir
 function playKeySound() {
     const sound = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=typewriter-soft-112109.mp3");
     sound.volume = 0.12;
     sound.play();
 }
 
-// Abrir carta
 function openLetter() {
     document.getElementById("intro").style.display = "none";
+    document.body.classList.add("overlay-bg");
     const letterDiv = document.getElementById("letter");
     letterDiv.classList.add("show");
     typeWriter();
 }
 
-// Máquina de escribir
 function typeWriter() {
+    const letterDiv = document.getElementById("letter");
     if (i < letterText.length) {
         const currentChar = letterText.charAt(i);
-        document.getElementById("text").innerHTML += currentChar;
+        const textDiv = document.getElementById("text");
+        textDiv.innerHTML += currentChar;
         if (currentChar.match(/[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]/)) playKeySound();
         i++;
+
+        // Baja el scroll automáticamente mientras se escribe
+        letterDiv.scrollTop = letterDiv.scrollHeight;
 
         let delay = 35;
         if (currentChar === ",") delay = 200;
@@ -196,11 +202,9 @@ function typeWriter() {
     }
 }
 
-// Overlay final y Spotify
 function sayYes() {
     const overlay = document.getElementById("overlay");
     overlay.classList.add("show");
-
     setTimeout(() => {
         window.open("https://open.spotify.com/track/2YaAk5IAyTMk40RMqCPP87", "_blank");
     }, 7000);
