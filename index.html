@@ -5,30 +5,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Para Itzel ❤️</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+
 <style>
 body {
     margin: 0;
-    padding: 0;
+    padding: 40px 20px;
     background: #0f0f0f;
     color: white;
     font-family: 'Poppins', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     text-align: center;
-    overflow: hidden;
+    overflow-y: auto;
     transition: background 1s ease;
 }
 
 .container {
     max-width: 600px;
-    padding: 20px;
 }
 
 h1 {
     font-weight: 300;
     letter-spacing: 3px;
+}
+
+p {
+    line-height: 1.6;
 }
 
 button {
@@ -60,7 +64,7 @@ button:hover {
 }
 
 .heart {
-    position: absolute;
+    position: fixed;
     color: rgba(255,255,255,0.15);
     font-size: 18px;
     animation: float 6s linear infinite;
@@ -72,6 +76,7 @@ button:hover {
 }
 </style>
 </head>
+
 <body>
 
 <div class="container" id="intro">
@@ -83,33 +88,32 @@ button:hover {
 <div class="container hidden" id="letter">
     <h1>¿Quieres ser mi San Valentín?</h1>
     <p>
-        Sé que quizá nunca te han dado una sorpresa así,<br>
+        Sé que quizá nunca te han dado una sorpresa así,
         o han intentado hacer algo diferente por ti.<br><br>
 
-        Y aunque cuando te pedí que fueras mi novia casi lo arruino 😅<br>
-        siempre he querido que lo nuestro tenga algo único,<br>
+        Y aunque cuando te pedí que fueras mi novia casi lo arruino 😅
+        siempre he querido que lo nuestro tenga algo único,
         algo que se sienta especial… como tú.<br><br>
 
-        Desde que te conocí supe que contigo iba a vivir momentos increíbles:<br>
-        muchas risas, burlas, bromas, canciones cantadas a todo pulmón en el carro<br>
-        y algo que simplemente no se puede explicar…<br>
+        Desde que te conocí supe que contigo iba a vivir momentos increíbles:
+        muchas risas, burlas, bromas, canciones cantadas a todo pulmón en el carro
+        y algo que simplemente no se puede explicar…
         pero se siente.<br><br>
 
-        Lo nuestro fue natural.<br>
-        Sin forzarlo.<br>
-        Sin planearlo demasiado.<br>
+        Lo nuestro fue natural.
+        Sin forzarlo.
+        Sin planearlo demasiado.
         Y por eso es distinto.<br><br>
 
         Por eso hoy quiero preguntártelo de una manera diferente.<br><br>
 
-        Itzel…<br>
+        Itzel…
         ¿Te gustaría ser mi San Valentín? ❤️
     </p>
 
     <button onclick="sayYes()">Sí 💗</button>
 
-    <!-- BOTÓN SORPRESA DE SPOTIFY -->
-    <a href="https://open.spotify.com/track/2YaAk5IAyTMk40RMqCPP87?si=fpoeS7hzRp2aJ74vPpjDWw" target="_blank">
+    <a href="https://open.spotify.com/track/2YaAk5IAyTMk40RMqCPP87" target="_blank">
         <button class="spotify-btn">🎵 Reproducir nuestra canción</button>
     </a>
 </div>
@@ -125,7 +129,6 @@ function sayYes() {
     alert("Sabía que dirías que sí… Eres mi lugar favorito. ❤️ - Luis");
 }
 
-// corazones flotando
 setInterval(() => {
     const heart = document.createElement("div");
     heart.classList.add("heart");
