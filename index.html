@@ -12,95 +12,116 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Poppins', sans-serif;
-    background: #000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    text-align: center;
+    color: white;
+    background: url('images/IMG_2679.png') no-repeat center center/cover;
     height: 100vh;
     overflow: hidden;
-    color: white;
 }
 
-/* ===== CONTENEDOR SOBRE ===== */
-#envelope-container {
-    position: relative;
-    width: 70vw;
-    max-width: 300px;
-    perspective: 1000px;
-    z-index: 2;
-    cursor: pointer;
-}
-
-/* ===== SOBRE ===== */
-#envelope {
-    width: 100%;
-    transform-style: preserve-3d;
-    transition: transform 1s ease;
-}
-
-#envelope.open {
-    transform: rotateX(180deg) translateY(-30px);
-}
-
-/* ===== CARTA ===== */
-#letter {
+/* ===== Intro centrado ===== */
+#intro {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     position: absolute;
     top: 0;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50px);
-    background: #111;
-    padding: 20px;
-    border-radius: 20px;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 1;
+}
+
+/* ===== Carta de papel ===== */
+#letter {
+    position: relative;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.95);
+    color: black;
+    padding: 35px 25px; /* margen horizontal generoso */
+    border-radius: 25px;
+    max-width: 90%;
     width: 90%;
-    max-width: 400px;
-    max-height: 80vh;
+    max-height: 90vh; /* altura máxima para celular */
+    margin: 20px auto;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
     overflow-y: auto;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    font-size: 1.1em;
+    line-height: 1.8em;
+    display: none;
+    transform: translateY(50px);
     opacity: 0;
-    transition: opacity 1s ease, transform 1s ease;
+    transition: transform 1s ease, opacity 1s ease;
 }
 
 #letter.show {
+    transform: translateY(0);
     opacity: 1;
-    transform: translateX(-50%) translateY(0);
 }
 
-#text {
-    line-height: 1.8;
-    white-space: pre-wrap;
-    font-size: 1em;
-    padding: 0 5px;
-}
-
-/* ===== BOTON ===== */
-#yesBtn {
-    margin-top: 15px;
-    padding: 12px 20px;
+/* ===== Botones ===== */
+button {
+    margin-top: 20px;
+    padding: 12px 25px;
     border: none;
-    font-size: 16px;
+    font-size: 15px;
     cursor: pointer;
     border-radius: 20px;
-    background: #ff5e5e;
+    background: white;
+    color: black;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+/* ===== Overlay ===== */
+.fade-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.88);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1.2s ease;
+    text-align: center;
+    padding: 20px;
+    z-index: 3;
+}
+
+.fade-overlay.show {
+    opacity: 1;
+}
+
+.fade-message {
+    font-size: 20px;
+    max-width: 500px;
+    line-height: 1.6;
     color: white;
-    display: none;
-    animation: heartbeat 1s infinite;
 }
 
-#yesBtn:hover {
-    transform: scale(1.1);
-}
-
-@keyframes heartbeat {
-    0%,100% { transform: scale(1); }
-    50% { transform: scale(1.15); }
+/* ===== Responsive para celulares ===== */
+@media (max-width: 600px) {
+    #letter {
+        font-size: 1em;
+        padding: 20px 15px;
+    }
+    .fade-message {
+        font-size: 1em;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<div id="envelope-container">
-    <img id="envelope" src="images/IMG_2679.png" alt="Sobre">
+<div id="intro">
+    <h1>Para Itzel...</h1>
+    <button onclick="openLetter()">Ábrelo 💌</button>
 </div>
 
 <div id="letter">
@@ -108,15 +129,17 @@ body {
     <button id="yesBtn" onclick="sayYes()">Sí 💗</button>
 </div>
 
-<script>
-const envelope = document.getElementById("envelope");
-const letter = document.getElementById("letter");
-const textDiv = document.getElementById("text");
-const yesBtn = document.getElementById("yesBtn");
+<div class="fade-overlay" id="overlay">
+    <div class="fade-message">
+        Sabía que dirías que sí… <br><br>
+        porque la felicidad y el amor verdadero no se fingen. ❤️
+    </div>
+</div>
 
+<script>
 const letterText = `Sé que quizá nunca te han dado una sorpresa así, o han intentado hacer algo diferente por ti.
 
-Y aunque cuando te pedí que fueras mi novia casi lo arruino 😅 siempre he querido que lo nuestro tenga algo único, algo que se sienta especial… como tú.
+Y aunque cuando te pedí que fueras mi novia casi lo arruino 😅, siempre he querido que lo nuestro tenga algo único, algo que se sienta especial… como tú.
 
 Desde que te conocí supe que contigo iba a vivir momentos increíbles: muchas risas, burlas, bromas, canciones cantadas a todo pulmón en el carro y algo que simplemente no se puede explicar… pero se siente.
 
@@ -126,45 +149,37 @@ Y por eso hoy quiero preguntártelo de una manera distinta...
 
 Itzel, ¿Te gustaría ser mi San Valentín? ❤️`;
 
-// SONIDO MÁQUINA DE ESCRIBIR
-function playKeySound() {
-    const sound = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=typewriter-soft-112109.mp3");
-    sound.volume = 0.12;
-    sound.play();
-}
+function openLetter() {
+    document.getElementById("intro").style.display = "none";
+    const letter = document.getElementById("letter");
+    letter.style.display = "block";
 
-// CLICK SOBRE PARA ABRIR
-envelope.addEventListener("click", () => {
-    envelope.classList.add("open");
-    setTimeout(() => {
-        envelope.style.display = "none";
-        letter.classList.add("show");
-        typeWriter();
-    }, 800); // tiempo para que el giro del sobre se vea
-});
+    const textDiv = document.getElementById("text");
+    textDiv.innerHTML = "";
 
-// ESCRITURA CON SCROLL AUTOMÁTICO
-let i = 0;
-function typeWriter() {
-    if(i < letterText.length){
-        const currentChar = letterText.charAt(i);
-        textDiv.innerHTML += currentChar;
+    let i = 0;
 
-        if(currentChar.match(/[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]/)) playKeySound();
-
-        i++;
-        textDiv.scrollTop = textDiv.scrollHeight;
-        setTimeout(typeWriter, 25);
-    } else {
-        yesBtn.style.display = "inline-block";
+    function typeWriter() {
+        if (i < letterText.length) {
+            textDiv.innerHTML += letterText.charAt(i);
+            textDiv.scrollTop = textDiv.scrollHeight; // scroll automático
+            i++;
+            setTimeout(typeWriter, 25);
+        }
     }
+
+    setTimeout(() => {
+        letter.classList.add("show"); // efecto papel saliendo
+        typeWriter();
+    }, 100);
 }
 
-// BOTÓN FINAL
-function sayYes(){
-    alert("Sabía que dirías que sí ❤️");
-    setTimeout(()=>{
-        window.open("https://open.spotify.com/track/2YaAk5IAyTMk40RMqCPP87","_blank");
+function sayYes() {
+    const overlay = document.getElementById("overlay");
+    overlay.classList.add("show");
+
+    setTimeout(() => {
+        window.open("https://open.spotify.com/track/2YaAk5IAyTMk40RMqCPP87", "_blank");
     }, 7000);
 }
 </script>
