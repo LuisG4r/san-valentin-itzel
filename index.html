@@ -17,12 +17,7 @@ body {
     background: url('images/IMG_2676.jpeg') no-repeat center center/cover;
     background-size: cover;
     height: 100vh;
-    transition: filter 0.8s ease;
     overflow: hidden;
-}
-
-body.blur {
-    filter: blur(5px);
 }
 
 /* Intro centrado */
@@ -39,7 +34,7 @@ body.blur {
     z-index: 5;
 }
 
-/* Carta translúcida pero sólida para texto legible */
+/* Carta sólida sin blur */
 #letter {
     position: fixed;
     top: 50%;
@@ -67,7 +62,7 @@ body.blur {
     line-height: 1.8;
     white-space: pre-line;
     min-height: 200px;
-    text-shadow: 1px 1px 5px rgba(0,0,0,0.7);
+    text-shadow: none; /* quitar sombra para que quede limpio */
 }
 
 /* Botones */
@@ -173,12 +168,7 @@ function playKeySound() {
 function openLetter() {
     document.getElementById("intro").style.display = "none";
     const letterDiv = document.getElementById("letter");
-    document.body.classList.add("blur");
-
-    setTimeout(() => {
-        letterDiv.classList.add("show");
-    }, 100);
-
+    letterDiv.classList.add("show");
     typeWriter();
 }
 
