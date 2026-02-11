@@ -39,19 +39,17 @@ body {
     z-index: 2;
     background: rgba(255, 255, 255, 0.95);
     color: black;
-    padding: 40px 50px; /* más margen a los costados */
+    padding: 35px 25px; /* margen horizontal generoso */
     border-radius: 25px;
-    max-width: 850px;
+    max-width: 90%;
     width: 90%;
-    max-height: 80vh;
+    max-height: 90vh; /* altura máxima para celular */
     margin: 20px auto;
     box-shadow: 0 15px 40px rgba(0,0,0,0.5);
     overflow-y: auto;
-    font-size: 1.2em;
-    line-height: 1.9em;
+    font-size: 1.1em;
+    line-height: 1.8em;
     display: none;
-
-    /* efecto papel saliendo */
     transform: translateY(50px);
     opacity: 0;
     transition: transform 1s ease, opacity 1s ease;
@@ -105,6 +103,17 @@ button:hover {
     line-height: 1.6;
     color: white;
 }
+
+/* ===== Responsive para celulares ===== */
+@media (max-width: 600px) {
+    #letter {
+        font-size: 1em;
+        padding: 20px 15px;
+    }
+    .fade-message {
+        font-size: 1em;
+    }
+}
 </style>
 </head>
 
@@ -153,8 +162,7 @@ function openLetter() {
     function typeWriter() {
         if (i < letterText.length) {
             textDiv.innerHTML += letterText.charAt(i);
-            // Mantener scroll automático hacia abajo
-            textDiv.scrollTop = textDiv.scrollHeight;
+            textDiv.scrollTop = textDiv.scrollHeight; // scroll automático
             i++;
             setTimeout(typeWriter, 25);
         }
