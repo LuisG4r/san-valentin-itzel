@@ -37,19 +37,29 @@ body {
 #letter {
     position: relative;
     z-index: 2;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.95);
     color: black;
-    padding: 40px 30px;
+    padding: 40px 50px; /* más margen a los costados */
     border-radius: 25px;
-    max-width: 800px;
+    max-width: 850px;
     width: 90%;
     max-height: 80vh;
     margin: 20px auto;
     box-shadow: 0 15px 40px rgba(0,0,0,0.5);
     overflow-y: auto;
-    font-size: 1.1em;
-    line-height: 1.8em;
+    font-size: 1.2em;
+    line-height: 1.9em;
     display: none;
+
+    /* efecto papel saliendo */
+    transform: translateY(50px);
+    opacity: 0;
+    transition: transform 1s ease, opacity 1s ease;
+}
+
+#letter.show {
+    transform: translateY(0);
+    opacity: 1;
 }
 
 /* ===== Botones ===== */
@@ -136,7 +146,24 @@ function openLetter() {
     letter.style.display = "block";
 
     const textDiv = document.getElementById("text");
-    textDiv.innerHTML = letterText; // Mostrar todo el texto de una
+    textDiv.innerHTML = "";
+
+    let i = 0;
+
+    function typeWriter() {
+        if (i < letterText.length) {
+            textDiv.innerHTML += letterText.charAt(i);
+            // Mantener scroll automático hacia abajo
+            textDiv.scrollTop = textDiv.scrollHeight;
+            i++;
+            setTimeout(typeWriter, 25);
+        }
+    }
+
+    setTimeout(() => {
+        letter.classList.add("show"); // efecto papel saliendo
+        typeWriter();
+    }, 100);
 }
 
 function sayYes() {
