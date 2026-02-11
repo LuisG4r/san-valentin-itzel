@@ -8,33 +8,66 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
 
 <style>
-
+/* ===== Fondo personalizado ===== */
 body {
     margin: 0;
-    padding: 40px 20px;
+    padding: 0;
     font-family: 'Poppins', sans-serif;
     text-align: center;
     color: white;
-    background: linear-gradient(135deg, #1e1e2f, #2b1e34, #40213a);
-    background-size: 400% 400%;
-    animation: gradientMove 12s ease infinite;
+    background: url('TU_IMAGEN_URL_AQUI.jpg') no-repeat center center/cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: filter 0.8s ease;
 }
 
-@keyframes gradientMove {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+body.blur {
+    filter: blur(8px);
 }
 
+/* ===== Contenedores ===== */
 .container {
     max-width: 650px;
+    width: 90%;
     margin: auto;
+}
+
+/* ===== Texto inicial centrado verticalmente ===== */
+#intro {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* ocupa toda la pantalla */
 }
 
 h1 {
     font-family: 'Playfair Display', serif;
     font-weight: 400;
     letter-spacing: 2px;
+    font-size: 3em;
+}
+
+/* ===== Carta translúcida ===== */
+#letter {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(5px);
+    color: white;
+    padding: 30px;
+    border-radius: 25px;
+    max-width: 600px;
+    margin: 40px auto;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+#letter.show {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 #text {
@@ -44,6 +77,7 @@ h1 {
     min-height: 200px;
 }
 
+/* ===== Botones ===== */
 button {
     margin-top: 30px;
     padding: 12px 25px;
@@ -64,7 +98,7 @@ button:hover {
     display: none;
 }
 
-/* Fade final elegante */
+/* ===== Overlay final ===== */
 .fade-overlay {
     position: fixed;
     inset: 0;
@@ -94,16 +128,19 @@ button:hover {
 
 <body>
 
+<!-- ===== Pantalla inicial ===== -->
 <div class="container" id="intro">
-    <h1>Itzel...</h1>
+    <h1>Para Itzel...</h1>
     <button onclick="openLetter()">Ábrelo 💌</button>
 </div>
 
+<!-- ===== Carta con mensaje ===== -->
 <div class="container hidden" id="letter">
     <div id="text"></div>
     <button id="yesBtn" class="hidden" onclick="sayYes()">Sí 💗</button>
 </div>
 
+<!-- ===== Overlay final ===== -->
 <div class="fade-overlay" id="overlay">
     <div class="fade-message">
         Sabía que dirías que sí… <br><br>
@@ -112,7 +149,6 @@ button:hover {
 </div>
 
 <script>
-
 const letterText = `Sé que quizá nunca te han dado una sorpresa así,
 o han intentado hacer algo diferente por ti.
 
@@ -137,22 +173,33 @@ Itzel,
 
 let i = 0;
 
-// Sonido realista por tecla (nuevo objeto cada vez)
+// ===== Sonido tipo máquina de escribir =====
 function playKeySound() {
     const sound = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=typewriter-soft-112109.mp3");
     sound.volume = 0.12;
     sound.play();
 }
 
+// ===== Abrir carta =====
 function openLetter() {
     document.getElementById("intro").classList.add("hidden");
-    document.getElementById("letter").classList.remove("hidden");
+    const letterDiv = document.getElementById("letter");
+    letterDiv.classList.remove("hidden");
+
+    // Blur al fondo
+    document.body.classList.add("blur");
+
+    // Animación de aparición de la carta
+    setTimeout(() => {
+        letterDiv.classList.add("show");
+    }, 100);
+
     typeWriter();
 }
 
+// ===== Efecto máquina de escribir =====
 function typeWriter() {
     if (i < letterText.length) {
-
         const currentChar = letterText.charAt(i);
         document.getElementById("text").innerHTML += currentChar;
 
@@ -163,29 +210,26 @@ function typeWriter() {
         i++;
 
         let delay = 35;
-
         if (currentChar === ",") delay = 200;
         if (currentChar === ".") delay = 350;
         if (currentChar === "\n") delay = 400;
-
-        if (letterText.substring(i-7, i) === "Itzel,") {
-            delay = 600;
-        }
+        if (letterText.substring(i-7, i) === "Itzel,") delay = 600;
 
         setTimeout(typeWriter, delay);
-
     } else {
         document.getElementById("yesBtn").classList.remove("hidden");
     }
 }
 
+// ===== Mostrar overlay final y abrir Spotify =====
 function sayYes() {
     const overlay = document.getElementById("overlay");
     overlay.classList.add("show");
 
+    // Retraso 7 segundos para leer mensaje antes de abrir Spotify
     setTimeout(() => {
         window.open("https://open.spotify.com/track/2YaAk5IAyTMk40RMqCPP87", "_blank");
-    }, 2200);
+    }, 7000);
 }
 
 </script>
