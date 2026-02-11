@@ -13,13 +13,14 @@ body {
     padding: 0;
     font-family: 'Poppins', sans-serif;
     text-align: center;
-    color: #fff;
+    color: #333;
     background: url('images/IMG_2676.jpeg') no-repeat center center/cover;
     background-size: cover;
     height: 100vh;
     overflow: hidden;
 }
 
+/* Intro centrado */
 #intro {
     display: flex;
     flex-direction: column;
@@ -33,21 +34,28 @@ body {
     z-index: 5;
 }
 
+#intro h1 {
+    color: #fff;
+    font-size: 3em;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+}
+
+/* Carta tipo papel */
 #letter {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 10;
-    background: #fff8f0;
+    background: #fffef4; /* color de papel suave */
     color: #333;
-    padding: 50px 70px;
-    border-radius: 20px;
+    padding: 50px 20px; /* margen horizontal mínimo */
+    border-radius: 15px;
     width: 90%;
     max-width: 800px;
     max-height: 85vh;
     overflow-y: auto;
-    box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
     border: 1px solid #f2e5d5;
     opacity: 0;
     pointer-events: none;
@@ -55,14 +63,16 @@ body {
     font-family: 'Playfair Display', serif;
     font-size: 1.2em;
     line-height: 2;
-    text-align: justify; /* fluye más natural */
+    text-align: justify;
 }
 
+/* Mostrar carta */
 #letter.show {
     opacity: 1;
     pointer-events: auto;
 }
 
+/* Botones */
 button {
     margin-top: 30px;
     padding: 12px 25px;
@@ -79,6 +89,7 @@ button:hover {
     transform: scale(1.05);
 }
 
+/* Overlay final */
 .fade-overlay {
     position: fixed;
     inset: 0;
@@ -102,6 +113,7 @@ button:hover {
     font-size: 20px;
     max-width: 500px;
     line-height: 1.6;
+    color: #fff;
 }
 </style>
 </head>
@@ -132,23 +144,24 @@ function openLetter() {
     const letterDiv = document.getElementById("letter");
     const textDiv = document.getElementById("text");
 
-    // Limpiar cualquier texto anterior
-    textDiv.innerHTML = '';
+    textDiv.innerHTML = ''; // limpiar antes
 
-    // Crear un párrafo grande para que fluya de manera continua
+    // Párrafo único fluido
     const p = document.createElement('p');
     p.textContent = letterText;
     textDiv.appendChild(p);
 
     letterDiv.classList.add("show");
 
-    // Hacer scroll automático al final (opcional)
-    textDiv.scrollTop = 0; // inicia arriba
+    // Scroll inicial al top
+    textDiv.scrollTop = 0;
 }
 
 function sayYes() {
     const overlay = document.getElementById("overlay");
     overlay.classList.add("show");
+
+    // Retraso 7 segundos antes de abrir Spotify
     setTimeout(() => {
         window.open("https://open.spotify.com/track/2YaAk5IAyTMk40RMqCPP87", "_blank");
     }, 7000);
