@@ -15,7 +15,7 @@ body {
     font-family: 'Poppins', sans-serif;
     text-align: center;
     color: white;
-    background: url('https://i.imgur.com/6b8Z1xR.jpg') no-repeat center center/cover;
+    background: url('images/fondo.jpg') no-repeat center center/cover;
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -40,7 +40,7 @@ body.blur {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* ocupa toda la pantalla */
+    height: 100vh;
 }
 
 h1 {
@@ -122,7 +122,6 @@ button:hover {
     max-width: 500px;
     line-height: 1.6;
 }
-
 </style>
 </head>
 
@@ -149,6 +148,8 @@ button:hover {
 </div>
 
 <script>
+document.addEventListener("DOMContentLoaded", function() {
+
 const letterText = `Sé que quizá nunca te han dado una sorpresa así,
 o han intentado hacer algo diferente por ti.
 
@@ -232,6 +233,7 @@ function sayYes() {
     }, 7000);
 }
 
+}); // fin DOMContentLoaded
 </script>
 
 </body>
