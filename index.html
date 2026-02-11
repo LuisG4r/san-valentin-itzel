@@ -15,50 +15,51 @@ body {
     text-align: center;
     color: white;
     background: url('images/IMG_2676.jpeg') no-repeat center center/cover;
+    background-size: cover;
     height: 100vh;
     transition: filter 0.8s ease;
     overflow: hidden;
 }
 
 body.blur {
-    filter: blur(8px);
+    filter: blur(5px);
 }
 
-/* ===== Intro centrado ===== */
+/* Intro centrado */
 #intro {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100vh;
-    z-index: 1;
+    height: 100%;
+    z-index: 5;
 }
 
-/* ===== Carta translúcida ===== */
+/* Carta translúcida pero sólida para texto legible */
 #letter {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 2;
-    background: rgba(0, 0, 0, 0.4); /* Fondo oscuro translúcido para que el texto blanco resalte */
-    backdrop-filter: blur(5px);
-    color: white;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.85); /* fondo sólido negro */
+    color: #fff;
     padding: 30px;
     border-radius: 25px;
     max-width: 600px;
     box-shadow: 0 15px 40px rgba(0,0,0,0.5);
     opacity: 0;
+    pointer-events: none;
     transition: opacity 1s ease, transform 1s ease;
 }
 
 #letter.show {
     opacity: 1;
-    transform: translate(-50%, -50%);
+    pointer-events: auto;
 }
 
 #text {
@@ -66,9 +67,10 @@ body.blur {
     line-height: 1.8;
     white-space: pre-line;
     min-height: 200px;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.7);
 }
 
-/* ===== Botones ===== */
+/* Botones */
 button {
     margin-top: 30px;
     padding: 12px 25px;
@@ -89,7 +91,7 @@ button:hover {
     display: none;
 }
 
-/* ===== Overlay ===== */
+/* Overlay final */
 .fade-overlay {
     position: fixed;
     inset: 0;
@@ -102,7 +104,7 @@ button:hover {
     transition: opacity 1.2s ease;
     text-align: center;
     padding: 20px;
-    z-index: 3;
+    z-index: 20;
 }
 
 .fade-overlay.show {
@@ -116,22 +118,18 @@ button:hover {
 }
 </style>
 </head>
-
 <body>
 
-<!-- Pantalla inicial -->
 <div id="intro">
     <h1>Para Itzel...</h1>
     <button onclick="openLetter()">Ábrelo 💌</button>
 </div>
 
-<!-- Carta -->
 <div id="letter">
     <div id="text"></div>
     <button id="yesBtn" class="hidden" onclick="sayYes()">Sí 💗</button>
 </div>
 
-<!-- Overlay final -->
 <div class="fade-overlay" id="overlay">
     <div class="fade-message">
         Sabía que dirías que sí… <br><br>
@@ -177,7 +175,6 @@ function openLetter() {
     const letterDiv = document.getElementById("letter");
     document.body.classList.add("blur");
 
-    // Mostrar carta con transición
     setTimeout(() => {
         letterDiv.classList.add("show");
     }, 100);
@@ -205,7 +202,7 @@ function typeWriter() {
     }
 }
 
-// Overlay y Spotify
+// Mostrar overlay final y abrir Spotify
 function sayYes() {
     const overlay = document.getElementById("overlay");
     overlay.classList.add("show");
