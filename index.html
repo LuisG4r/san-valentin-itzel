@@ -18,15 +18,8 @@ body {
     background-size: cover;
     height: 100vh;
     overflow: hidden;
-    transition: background-color 0.5s ease;
 }
 
-/* Fondo oscuro al abrir carta */
-body.overlay-bg {
-    background-color: rgba(0,0,0,0.5);
-}
-
-/* Intro centrado */
 #intro {
     display: flex;
     flex-direction: column;
@@ -40,7 +33,6 @@ body.overlay-bg {
     z-index: 5;
 }
 
-/* Carta estilo “papel” */
 #letter {
     position: fixed;
     top: 50%;
@@ -59,26 +51,16 @@ body.overlay-bg {
     opacity: 0;
     pointer-events: none;
     transition: opacity 1s ease, transform 1s ease;
-    scroll-behavior: smooth;
     font-family: 'Playfair Display', serif;
     line-height: 1.9;
+    text-align: left;
 }
 
-/* Carta visible */
 #letter.show {
     opacity: 1;
     pointer-events: auto;
 }
 
-/* Cada línea o párrafo animado */
-.line {
-    opacity: 0;
-    display: block;
-    margin-bottom: 1.2em;
-    transition: opacity 0.6s ease;
-}
-
-/* Botones */
 button {
     margin-top: 30px;
     padding: 12px 25px;
@@ -99,7 +81,6 @@ button:hover {
     display: none;
 }
 
-/* Overlay final */
 .fade-overlay {
     position: fixed;
     inset: 0;
@@ -168,61 +149,11 @@ Y por eso hoy quiero preguntártelo de una manera distinta...
 Itzel,
 ¿Te gustaría ser mi San Valentín? ❤️`;
 
-let i = 0;
-
-function playKeySound() {
-    const sound = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=typewriter-soft-112109.mp3");
-    sound.volume = 0.12;
-    sound.play();
-}
-
 function openLetter() {
     document.getElementById("intro").style.display = "none";
-    document.body.classList.add("overlay-bg");
     const letterDiv = document.getElementById("letter");
+    document.getElementById("text").textContent = letterText; // texto completo de golpe
     letterDiv.classList.add("show");
-    typeWriter();
-}
-
-function typeWriter() {
-    const letterDiv = document.getElementById("letter");
-    const textDiv = document.getElementById("text");
-
-    if (i < letterText.length) {
-        let currentChar = letterText.charAt(i);
-        let span;
-
-        // Crear un span por línea
-        if (currentChar === "\n") {
-            span = document.createElement("br");
-            textDiv.appendChild(span);
-        } else {
-            span = document.createElement("span");
-            span.className = "line";
-            span.textContent = currentChar;
-            textDiv.appendChild(span);
-            // animación fade
-            setTimeout(() => {
-                span.style.opacity = 1;
-            }, 50);
-        }
-
-        if (currentChar.match(/[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]/)) playKeySound();
-        i++;
-
-        // Scroll automático mientras se escribe
-        letterDiv.scrollTop = letterDiv.scrollHeight;
-
-        let delay = 35;
-        if (currentChar === ",") delay = 200;
-        if (currentChar === ".") delay = 350;
-        if (currentChar === "\n") delay = 400;
-        if (letterText.substring(i-7,i) === "Itzel,") delay = 600;
-
-        setTimeout(typeWriter, delay);
-    } else {
-        document.getElementById("yesBtn").classList.remove("hidden");
-    }
 }
 
 function sayYes() {
