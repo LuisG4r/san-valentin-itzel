@@ -64,7 +64,7 @@ button:hover {
     display: none;
 }
 
-/* Fade elegante final */
+/* Fade final elegante */
 .fade-overlay {
     position: fixed;
     inset: 0;
@@ -137,8 +137,12 @@ Itzel,
 
 let i = 0;
 
-const typingSound = new Audio("https://assets.mixkit.co/active_storage/sfx/212/212-preview.mp3");
-typingSound.volume = 0.15;
+// Sonido realista por tecla (nuevo objeto cada vez)
+function playKeySound() {
+    const sound = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=typewriter-soft-112109.mp3");
+    sound.volume = 0.12;
+    sound.play();
+}
 
 function openLetter() {
     document.getElementById("intro").classList.add("hidden");
@@ -152,10 +156,8 @@ function typeWriter() {
         const currentChar = letterText.charAt(i);
         document.getElementById("text").innerHTML += currentChar;
 
-        // Sonido solo en letras
         if (currentChar.match(/[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]/)) {
-            typingSound.currentTime = 0;
-            typingSound.play();
+            playKeySound();
         }
 
         i++;
